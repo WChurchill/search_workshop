@@ -1,0 +1,14 @@
+# emacs backups
+*~
+
+# python
+env
+*__pycache__
+
+# LaTeX
+*.log
+*.aux
+*.nav
+*.out
+*.pdf
+*.snm
