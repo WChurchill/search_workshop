@@ -1,6 +1,9 @@
 % Created 2017-09-20 Wed 13:20
 % Intended LaTeX compiler: pdflatex
 \documentclass[presentation]{beamer}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{algorithm2e}
 \usepackage{amsmath}
 \usepackage{tikz}
 \usepackage{hyperref}
@@ -52,26 +55,115 @@
   \item What Problems can be solved by searching?
     \begin{itemize}
     \item <1-> Chess
+      \begin{itemize}
+      \item <7-> Branching Factor $\approx 35$
+      \end{itemize}
     \item <2-> Solving Mazes
+      \begin{itemize}
+      \item <8-> Branching Factor $O(3)$
+      \end{itemize}
     \item <3-> Computer Algebra System
     \end{itemize}
   \item What Problems should we NOT use search?
     \begin{itemize}
     \item <4-> Travelling salesman problem
+      \begin{itemize}
+      \item <9-> Branching Factor $O(N)$
+      \end{itemize}
     \item <5-> Go
-    \item <6-> 
+      \begin{itemize}
+      \item <10-> Branching Factor $\approx 250$
+      \end{itemize}
+    \item <6-> What else?
     \end{itemize}
   \end{itemize}
 \end{frame}
-\begin{frame}{Problems}
-  
-\end{frame}
+
 \section{Breadth First and Depth First Search}
 \begin{frame}{Breadth First}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[]
+      \node[shape=circle,draw=black](A) at (0,0) {A};
+      \node[shape=circle,draw=black](B) at (-3, -1) {B};
+      \node[shape=circle,draw=black](C) at (2, -1) {C};
+      \node[shape=circle,draw=black](D) at (-5,-2) {D};
+      \node[shape=circle,draw=black](E) at (-3, -2) {E};
+      \node[shape=circle,draw=black,fill=green](F) at (-1, -2) {F};
+      \node[shape=circle,draw=black](G) at (1,-2) {G};
+      \node[shape=circle,draw=black](H) at (3, -2) {H};
+
+      \path [->] (A) edge node[above] {a1} (C);
+      \path [->] (A) edge node[above] {a2} (B);
+      \path [->] (B) edge node[above] {a3} (D);
+      \path [->] (B) edge node[left] {a4} (E);
+      \path [->] (B) edge node[above] {a5} (F);
+      \path [->] (C) edge node[above left] {a6} (G);
+      \path [->] (C) edge node[above right] {a7} (H);
+    \end{tikzpicture}
+  \end{figure}
+  \begin{tabular}{c | l | l}
+    Current Node & Queue & New Queue \\ \hline
+    A & [] & [B C] \\
+    B & [C] & [C D E F] \\
+    C & [D E F] & [D E F] \\
+    D & [E F] & [E F] \\
+    E & [F] & [F] \\
+    F & [] & Done! \\
+  \end{tabular}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Breadth First}
+  \begin{itemize}
+  
+  \item Utilizes a Queue: First in, First Out
+  \end{itemize}
+  \scriptsize \verbatiminput{bfs.py}
+  \normalsize
+  \begin{itemize}
+  \item What's missing?
+    \begin{itemize}
+    \item<2-> goal\_test() 
+    \item<2-> successors() 
+    \end{itemize}
+  \end{itemize}
+
+  
+\end{frame}
+
 \begin{frame}
   \frametitle{Depth First}
-  
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[]
+      \node[shape=circle,draw=black](A) at (0,0) {A};
+      \node[shape=circle,draw=black](B) at (-3, -1) {B};
+      \node[shape=circle,draw=black](C) at (2, -1) {C};
+      \node[shape=circle,draw=black](D) at (-5,-2) {D};
+      \node[shape=circle,draw=black](E) at (-3, -2) {E};
+      \node[shape=circle,draw=black,fill=green](F) at (-1, -2) {F};
+      \node[shape=circle,draw=black](G) at (1,-2) {G};
+      \node[shape=circle,draw=black](H) at (3, -2) {H};
+
+      \path [->] (A) edge node[above] {a1} (C);
+      \path [->] (A) edge node[above] {a2} (B);
+      \path [->] (B) edge node[above] {a3} (D);
+      \path [->] (B) edge node[left] {a4} (E);
+      \path [->] (B) edge node[above] {a5} (F);
+      \path [->] (C) edge node[above left] {a6} (G);
+      \path [->] (C) edge node[above right] {a7} (H);
+    \end{tikzpicture}
+  \end{figure}
+  \begin{tabular}{ c | l | l}
+    Current Node & Stack & New Stack \\ \hline
+    A & [] & [B, C] \\
+    C & [B] & [B, G, H] \\
+    H & [B, G] & [B, G] \\
+    G & [B] & [B] \\
+    B & [] & [D E F] \\
+    F & [D E] & Done! \\
+  \end{tabular}
 \end{frame}
 \begin{frame}{Example Time!}
   TODO: live coding of maze solver
@@ -86,6 +178,15 @@
   \item reduce nodes evaluated
   \item only works with a unique goal state
   \end{itemize}
+  \begin{tikzpicture}
+    \draw[black,thick] (0,0) circle (2cm);
+    \draw[black,thick] (0,0) circle (4cm);
+    \draw[black,thick] (4,0) circle (2cm);
+
+    % \node[fill=black] (start) at (0,0) circle (1mm);
+    \node[shape=circle,fill=black,pin={left:start}] (start) at (0,0) {};
+    \node[shape=circle,fill=green,pin={right:goal}] (goal) at (4,0) {};
+  \end{tikzpicture}
 \end{frame}
 \section{Heuristics}
 \begin{frame}{Heuristics}
