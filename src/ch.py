@@ -1,6 +1,6 @@
 import chess
 from chess import svg
-from ai import get_move
+import minimax
 
 b = chess.Board()
 _file = 'chess.svg'
@@ -8,8 +8,16 @@ _file = 'chess.svg'
 with open(_file, 'w') as f:
     f.write(chess.svg.board(board=b))
 
-user_move = input("enter move: ")
+while not b.is_game_over():
+    # Human moves
+    user_move = chess.Move.from_uci(input("enter move: "))
+    while user_move not in b.legal_moves:
+        user_move = chess.Move.from_uci(input("enter move: "))
+    b.push(user_move)
+    with open(_file, 'w') as f:
+        f.write(chess.svg.board(board=b))
 
-b.push(chess.Move.from_uci(user_move))
-with open(_file, 'w') as f:
-    f.write(chess.svg.board(board=b))
+    # AI moves
+    b.push(minimax.get_move(b))
+    with open(_file, 'w') as f:
+        f.write(chess.svg.board(board=b))
