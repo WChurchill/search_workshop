@@ -6,9 +6,14 @@ env
 *__pycache__
 
 # LaTeX
+auto
+*.toc
 *.log
 *.aux
 *.nav
 *.out
 *.pdf
 *.snm
+
+# Game images
+*.svg
