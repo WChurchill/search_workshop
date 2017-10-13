@@ -56,25 +56,33 @@
     \begin{itemize}
     \item <1-> Chess
       \begin{itemize}
-      \item <7-> Branching Factor $\approx 35$
+      \item <7-> Branching Factor: $\approx 35$
       \end{itemize}
     \item <2-> Solving Mazes
       \begin{itemize}
-      \item <8-> Branching Factor $O(3)$
+      \item <8-> Branching Factor: $3$
       \end{itemize}
-    \item <3-> Computer Algebra System
+    \item <3-> Computer Algebra
+      System
+      \begin{itemize}
+      \item <9-> Branching Factor:
+        idk lol
+      \end{itemize}
     \end{itemize}
   \item What Problems should we NOT use search?
     \begin{itemize}
     \item <4-> Travelling salesman problem
       \begin{itemize}
-      \item <9-> Branching Factor $O(N)$
+      \item <10-> Branching Factor: $O(N)$
       \end{itemize}
     \item <5-> Go
       \begin{itemize}
-      \item <10-> Branching Factor $\approx 250$
+      \item <11-> Branching Factor: $\approx 250$
       \end{itemize}
-    \item <6-> What else?
+    \item <6-> Program Synthesis
+      \begin{itemize}
+      \item <12-> Very costly goal test!
+      \end{itemize}
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -169,29 +177,85 @@
   TODO: live coding of maze solver
 \end{frame}
 \begin{frame}
-  \frametitle{What's the Difference?}
-  
+  \frametitle{What's the
+    Difference?}
+  \begin{itemize}
+    
+  \item Average branching factor:
+    $b$
+  \item Depth of goal node: $d$
+  \item<1-> BFS
+    \begin{itemize}
+    \item<2-> Runtime: $O(d^b)$
+    \item<3-> Space: $O(d^b)$
+    \end{itemize}
+    
+  \item<4-> DFS
+    \begin{itemize}
+    \item<5-> Runtime: $O(d^b)$
+    \item<6-> Space: $O(d)$
+    \end{itemize}
+  \end{itemize}
 \end{frame}
 \section{Bidirectional Search}
 \begin{frame}{Bidirectional Search}
   \begin{itemize}
   \item reduce nodes evaluated
-  \item only works with a unique goal state
+  \item $\frac{2a}{A} =
+    \frac{2\pi(r)^2}{\pi(2r)^2} =
+    \frac{2\pi r^2}{4\pi r^2} = \frac{1}{2}$
+  \item only works (well) with
+    unique goal state
   \end{itemize}
+  \begin{center}
   \begin{tikzpicture}
+    \draw[black,thick] (0,0) circle (1cm);
     \draw[black,thick] (0,0) circle (2cm);
-    \draw[black,thick] (0,0) circle (4cm);
-    \draw[black,thick] (4,0) circle (2cm);
+    \draw[black,thick] (2,0) circle (1cm);
 
     % \node[fill=black] (start) at (0,0) circle (1mm);
     \node[shape=circle,fill=black,pin={left:start}] (start) at (0,0) {};
-    \node[shape=circle,fill=green,pin={right:goal}] (goal) at (4,0) {};
+    \node[shape=circle,fill=green,pin={right:goal}] (goal) at (2,0) {};
   \end{tikzpicture}
+  \begin{itemize}
+  \item<1> BFS?
+  \item<1> DFS? 
+  \end{itemize}
+\end{center}
+\end{frame}
+
+\begin{frame}{Bidirectional Search}
+  \begin{itemize}
+   
+  \item Alternate between goal and
+    start nodes
+  \item Instead of using
+    goal\_test() we check if the
+    current node is on the fringe of one
+    search tree
+  \end{itemize}
+  Code
 \end{frame}
 \section{Heuristics}
 \begin{frame}{Heuristics}
   \begin{itemize}
-  \item can we make smarter decisions about which nodes to expand?
+  \item Can we make smarter 
+    decisions about which nodes to
+    expand?
+  \item That depends on the problem
+  \item What makes one node more
+    promising than another?
+   \begin{itemize}
+   \item<2-> Maze: how far from the
+     end are we?
+   \item<3-> Computer Algebra
+     System: how similar is the
+     expression to what we want?
+   \item<4-> Chess: Which board
+     position gives us the biggest
+     point difference in our favor?
+     (more on this later)
+   \end{itemize}
   \end{itemize}
 \end{frame}
 \begin{frame}{A*}
@@ -205,7 +269,7 @@
 \end{frame}
 \begin{frame}{Example Time!}
 \end{frame}
-\section{Adversarial Search}
+\section{Adversarial Search} 
 \begin{frame}{Adversarial Search}
   \begin{itemize}
   \item A.K.A Minimax
