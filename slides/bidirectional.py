@@ -2,7 +2,7 @@ current_node_start = start_node  # we are given the starting state
 current_node_end = goal_node # we are given the goal state
 history = set()  # keep track of nodes already visited
 queue = []  # use python list as queue for start list
-queue_end = []  # use python list us queue for end list
+queue_end = []  # use python list as queue for end list
 while current_node_start not in history:
     children1 = successors(current_node_start)
     children2 = successors(current_node_end)  # predecessors?
