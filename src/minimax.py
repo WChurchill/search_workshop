@@ -1,17 +1,17 @@
 # Minimax Search with alpha-beta pruning
 
-import chess
-import minimax
 import random
+from tictactoe import successors, utility
 
 
-def get_move(board):
-    """Return a legal chess move that maximizes chances of winning"""
-    print(len(board.legal_moves))
-    moves = [m for m in board.legal_moves]
-    return random.choice(moves)
+def minimax(state, maximize=True):
+    # check if we're at a leaf node
+    if leaf(state):
+        return utility(state)
+    else:
+        return max(children, key=lambda x: x[0])
 
 
-def utility(board):
-    """Approximates the utility of a certain board configuration"""
+def utility(state):
+    """Evaluates the utility of a game state"""
     return 0
