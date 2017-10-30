@@ -140,15 +140,21 @@ class Maze:
             return (coords[0] == self.__width - 1) and (
                 coords[1] == self.__height - 1)
 
-    def print(self):
+        return terminalTest
+
+    def print(self, path=set()):
         wall_str = "[]"
         space_str = "  "
         path_str = "::"
         for i in range(self.__height * (self.__width - 1)):
             if ((i // self.__width) % 2 == 0):
-                print(
-                    space_str,
-                    end="")  # print space for a cell - can't be a wall here
+                coords = (i // self.__width, i % self.__height)
+                if coords in path:
+                    print(path_str, end="")
+                else:
+                    print(
+                        space_str, end=""
+                    )  # print space for a cell - can't be a wall here
             if (self.__walls[i]):
                 print(space_str, end="")  # print space for a lack of wall here
             else:
@@ -156,7 +162,11 @@ class Maze:
             if ((i // self.__width) % 2 == 1):
                 print(wall_str, end="")  # print x - grid vertex wall
             if ((i + 1) % self.__width == 0):
-                print("")
+                coords = (i // self.__width, i % self.__height)
+                if coords in path:
+                    print(path_str, end="")
+                else:
+                    print("")
         for i in range(self.__width * 2):
             print(wall_str, end="")
         print()
@@ -195,8 +205,6 @@ class Maze:
 
 if __name__ == '__main__':
     m = Maze(30, 30)
-
-    m.print()
-    print("All connected: ", m.allUnioned())
-
-    print("Maze generated")
+    path = set()
+    path.add((0, 0))
+    m.print(path=path)
