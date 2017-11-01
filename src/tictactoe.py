@@ -16,7 +16,7 @@ def display(board):
 
 def make_board(width):
     assert (width % 2 != 0)
-    return [[' '] * width] * width
+    return [[' ' for col in range(width)] for row in range(width)]
 
 
 def utility(board):
