@@ -76,23 +76,23 @@ class Maze:
 
     # cell wall up = (y-1)*2*width + x + width (y!=0)
     def __UpPassage(self, coords):
-        return self.__walls((coords[1] - 1) * 2 * self.__width + coords[0] +
-                            self.__width) and (coords[1] != 0)
+        return self.__walls[(coords[1] - 1) * 2 * self.__width
+                            + coords[0] + self.__width] and (coords[1] != 0)
 
     # cell wall down = cell wall up + 2 * width (y != height-1)
     def __DownPassage(self, coords):
-        return self.__walls((coords[1]) * 2 * self.__width + coords[0] +
-                            self.__width) and (coords[1] != self.__height - 1)
+        return self.__walls[coords[1] * 2 * self.__width + coords[0] +
+                            self.__width] and (coords[1] != self.__height - 1)
 
     # cell wall left = cell wall up + width - 1 (x != 0)
     def __LeftPassage(self, coords):
-        return self.__walls(coords[1] * 2 * self.__width + coords[0] - 1) and (
-            coords[0] != 0)
+        return self.__walls[coords[1] * 2 * self.__width
+                            + coords[0] - 1] and (coords[0] != 0)
 
     # cell wall right = cell wall left + 1    (x !- width-1)
     def __RightPassage(self, coords):
-        return self.__walls(coords[1] * 2 * self.__width + coords[0]) and (
-            coords[0] != self.__width - 1)
+        return self.__walls[coords[1] * 2 * self.__width
+                            + coords[0]] and (coords[0] != self.__width - 1)
 
     def __mergeD(self, cell1, cell2):
         # returns true if they merged
