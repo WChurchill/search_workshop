@@ -53,22 +53,20 @@ def utility(board):
     return None
 
 
-def successors(board):
+def successors(board, turn):
     width = len(board)
     result = []
     for row_idx in range(width):
         for column_idx in range(width):
             if board[row_idx][column_idx] == ' ':
-                board1 = copy.deepcopy(board)
-                board2 = copy.deepcopy(board)
-
-                board1[row_idx][column_idx] = 'X'
-                board2[row_idx][column_idx] = 'O'
-                result += [board1, board2]
+                new_board = copy.deepcopy(board)
+                new_board[row_idx][column_idx] = turn
+                result.append(new_board)
     return result
 
 
 if __name__ == '__main__':
     b = make_board(3)
-    b[0][0] = 'X'
+    b[0][0] = 'O'
+    b[0][1] = 'X'
     display(b)
