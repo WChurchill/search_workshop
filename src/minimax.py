@@ -35,7 +35,7 @@ def minimax(current_node, a, b, maximize=True):
     else:
         child_node = SearchNode(9999999999, current_node.board)
 
-        # If opponent's turn, then minimize 
+        # If opponent's turn, return the move that minimizes utility
         for state in successors(current_node.board, 'O'):
             child_node = min(child_node, minimax(SearchNode(None, state), a, b, not maximize),
                              key=lambda node: node.utility)
