@@ -2,15 +2,13 @@ import random as braisedRNJesus
 
 
 class Maze:
-    __width = None
-    __height = None
-    __walls = []
-    __cells = []
-    __wallsLowered = 0
-
     def __init__(self, width, height):
         self.__width = width
         self.__height = height
+        self.__walls = []
+        self.__cells = []
+        self.__wallsLowered = 0
+
         wallOrder = []
         for i in range(width * height * 2):
             self.__walls.append(False)
