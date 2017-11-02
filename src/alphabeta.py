@@ -9,7 +9,7 @@ class SearchNode():
         self.board = board
 
 
-def minimax(current_node, a, b, maximize=True):
+def alphabeta(current_node, a, b, maximize=True):
     # check if we're at a leaf node
     util = utility(current_node.board)
     if util is not None:
