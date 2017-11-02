@@ -141,7 +141,6 @@ class Maze:
         return terminalTest
 
     def print(self, path=set()):
-        print(self.__walls)
         wall_str = "[]"
         space_str = "  "
         path_str = "::"
