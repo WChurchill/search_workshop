@@ -156,7 +156,7 @@ class Maze:
             # print the right wall (if any) of each cell
             for col_idx in range(self.__width):
                 i = 2 * self.__width * row_idx + col_idx
-                if (row_idx, col_idx) in path:
+                if (col_idx, row_idx) in path:
                     print(path_str, end='')
                 else:
                     # print space for a cell - can't be a wall here
@@ -221,7 +221,8 @@ class Maze:
 
 
 if __name__ == '__main__':
-    m = Maze(30, 30)
+    w = 20
+    m = Maze(w, w)
     path = set()
     path.add((0, 0))
     m.print(path=path)

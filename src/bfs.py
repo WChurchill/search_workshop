@@ -7,9 +7,7 @@ class SearchNode():
         self.parent = parent
 
 
-maze = Maze(4, 6)
-maze.print()
-print()
+maze = Maze(20, 20)
 goal_test = maze.getTerminalFunc()
 successors = maze.getSuccessorFunc()
 start_node = SearchNode((0, 0), None)
@@ -30,4 +28,4 @@ while current_node.parent:
     current_node = current_node.parent
     path.add(current_node.state)
 
-# maze.print(path)
+maze.print(path=path)
