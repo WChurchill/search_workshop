@@ -16,12 +16,12 @@ def display(board):
     print("{}".format(board[0][-1]))
 
     # print each remaining row and a line separator
-    for row_id in range(len(board[1:])):
+    for row_id in range(1, len(board[:])):
         print("  ", end="")  # print space for row labels
         for _ in range(len(board[row_id]) - 1):
             print("-+", end="")  # print line separators
         print("-")
-        print("{} ".format(row_id + 1), end="")
+        print("{} ".format(row_id), end="")
         for cell in board[row_id][:-1]:
             print("{}|".format(cell), end="")
         print("{}".format(board[row_id][-1]))
