@@ -1,17 +1,30 @@
 import copy
+import minimax
 
 
 def display(board):
+    # display column numbers
+    print("  ", end="")
+    for col in range(len(board[0])):
+        print(col, end=" ")
+
+    # print the first row of the board
+    print("\n0", end=" ")
     for cell in board[0][:-1]:
         print("{}|".format(cell), end="")
+    # print the last cell of the first row
     print("{}".format(board[0][-1]))
-    for row in board[1:]:
-        for _ in range(len(row) - 1):
-            print("-+", end="")
+
+    # print each remaining row and a line separator
+    for row_id in range(len(board[1:])):
+        print("  ", end="")  # print space for row labels
+        for _ in range(len(board[row_id]) - 1):
+            print("-+", end="")  # print line separators
         print("-")
-        for cell in row[:-1]:
+        print("{} ".format(row_id + 1), end="")
+        for cell in board[row_id][:-1]:
             print("{}|".format(cell), end="")
-        print("{}".format(row[-1]))
+        print("{}".format(board[row_id][-1]))
 
 
 def make_board(width):
@@ -65,8 +78,51 @@ def successors(board, turn):
     return result
 
 
-if __name__ == '__main__':
+def test_board():
     b = make_board(3)
     b[0][0] = 'O'
+    b[1][0] = 'O'
     b[0][1] = 'X'
-    display(b)
+    b[1][1] = 'X'
+    b[0][2] = 'O'
+    b[1][2] = 'X'
+    b[2][2] = 'O'
+    return b
+
+
+def valid_move(input, board):
+    width = len(board)
+    row = input[0]
+    col = input[1]
+    return (row < width) and (col < width) and (board[row][col] == ' ')
+
+
+def prompt_move():
+    s = input("Enter move: <row> <column> ")
+    tokens = s.split()
+    return int(tokens[0]), int(tokens[1])
+
+
+def game_loop():
+    WIDTH = 3
+    b = make_board(WIDTH)
+
+    while utility(b) is None:
+        ### Human moves
+        # sanitize user input
+
+        user_move = prompt_move()
+        while not valid_move(user_move, b):
+            user_move = prompt_move()
+
+        # process move
+        b[user_move[0]][user_move[1]] = 'O'
+
+        ### AI moves
+        current_node = minimax.SearchNode(None, b)
+        next_node = minimax.minimax(current_node, maximize=True)
+        b = next_node.board
+
+
+if __name__ == '__main__':
+    display(test_board())
