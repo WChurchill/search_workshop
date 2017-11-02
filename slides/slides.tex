@@ -476,19 +476,19 @@
       
       \node[node](A) at (0,0) {};
       \node[node](B) at (-2, -1) {};
-      \node[node](C) at (2, -1) {};
+      \node[node](C) at (2, -1) {?};
       \node[node](D) at (-3,-2) {};
       \node[node](E) at (-1, -2) {};
       \node[node](F) at (1,-2) {?};
-      \node[node](G) at (3, -2) {-1};
+      \node[node](G) at (3, -2) {3};
       \node[node](H) at (-3.5, -3) {};
       \node[node](I) at (-2.5, -3) {};
       \node[node](J) at (-1.5, -3) {};
       \node[node](K) at (-0.5, -3) {};
       \node[node,fill=yellow!50!](L) at (0.5, -3) {?};
-      \node[node](M) at (1.5, -3) {3};
+      \node[node](M) at (1.5, -3) {4};
       \node[node](N) at (2.5, -3) {2};
-      \node[node](O) at (3.5, -3) {-1};
+      \node[node](O) at (3.5, -3) {3};
 
 
       \path[rect,fill=blue] (-5,0.5) rectangle (5,-0.5);
@@ -515,17 +515,70 @@
     \end{tikzpicture}
   \end{figure}
 \end{frame}
+\begin{frame}
+  \frametitle{AlphaBeta Intuition}
+  \begin{itemize}
+  \item Consider this scenario:
+  \end{itemize}
+  \begin{figure}
+    \begin{tikzpicture}[->,>=latex]
+      \tikzstyle{node}=[shape=circle,draw=black,minimum size=8mm];
+      \tikzstyle{rect}=[rounded corners,draw=black,opacity=0.1];
+      
+      
+      \node[node](A) at (0,0) {};
+      \node[node](B) at (-2, -1) {};
+      \node[node](C) at (2, -1) {$\geq 3$};
+      \node[node](D) at (-3,-2) {};
+      \node[node](E) at (-1, -2) {};
+      \node[node](F) at (1,-2) {?};
+      \node[node](G) at (3, -2) {3};
+      \node[node](H) at (-3.5, -3) {};
+      \node[node](I) at (-2.5, -3) {};
+      \node[node](J) at (-1.5, -3) {};
+      \node[node](K) at (-0.5, -3) {};
+      \node[node,fill=yellow!50!](L) at (0.5, -3) {?};
+      \node[node](M) at (1.5, -3) {4};
+      \node[node](N) at (2.5, -3) {2};
+      \node[node](O) at (3.5, -3) {3};
 
+
+      \path[rect,fill=blue] (-5,0.5) rectangle (5,-0.5);
+      \path[rect,fill=red] (-5,-0.5) rectangle (5,-1.5);
+      \path[rect,fill=blue] (-5,-1.5) rectangle (5,-2.5);
+      \path[rect,fill=red] (-5,-2.5) rectangle (5,-3.5);
+
+
+      \path (A) edge (C);
+      \path (A) edge (B);
+      \path (B) edge (D);
+      \path (B) edge (E);
+      \path (C) edge (F);
+      \path (C) edge (G);
+      \path (D) edge (H);
+      \path (D) edge (I);
+      \path (E) edge (J);
+      \path (E) edge (K);
+      \path (F) edge (L);
+      \path (F) edge (M);
+      \path (G) edge (N);
+      \path (G) edge (O);
+
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
 \begin{frame}
   \frametitle{AlphaBeta}
   \begin{enumerate}
-  \item If maximizing: watch for value that surpasses current max
-    estimate
-  \item If minimizing: looking for value that surpasses current min
-    estimate
+  \item If maximizing: watch for value that exceeds current max
+    estimate $\beta$
+  \item If minimizing: watch for value that drops below current min
+    estimate $\alpha$
   \item If such a value is found, we can stop exploring child nodes
-    and return the value that caused the 
+    and return the value that caused the break
   \end{enumerate}
+  No need to keep searching when
+  \[\alpha \geq \beta\]
 \end{frame}
 \begin{frame}
   \frametitle{Example Time!}
