@@ -15,7 +15,7 @@ class Maze:
             wallOrder.append(i)
             if (i < width * height):
                 self.__cells.append(-1)
-
+        assert (len(wallOrder) == 2 * self.__width * self.__height)
         temp = 0
         # generate the order in which the walls will be checked
         for i in range(width * height - 1, 1, -1):
@@ -29,16 +29,15 @@ class Maze:
         # vertical wall, wall width*1 is the first horizontal wall
 
         for wall in wallOrder:
-            if ((self.__vertical(wall))
-                    and ((wall + 1) % self.__width !=
-                         0)):  # second false when cell is rightmost
+            # second false when cell is rightmost
+            if self.__vertical(wall) and ((wall + 1) % self.__width != 0):
                 adj = self.__vWallAdjCells(wall)
                 cellL = self.__coordToCell(adj[0])
                 cellR = self.__coordToCell(adj[1])
                 self.__walls[wall] = self.__mergeD(cellL, cellR)  # will
-            elif (not self.__vertical(wall)
-                  and ((wall // self.__width) // 2 != (self.__height - 1)
-                       )):  # second is false when wall is bottom most
+            # second is false when wall is bottom most
+            elif not self.__vertical(wall) and ((wall // self.__width) // 2 !=
+                                                (self.__height - 1)):
                 adj = self.__hWallAdjCells(wall)
                 cellU = self.__coordToCell(adj[0])
                 cellD = self.__coordToCell(adj[1])
@@ -199,7 +198,6 @@ class Maze:
 
 
 if __name__ == '__main__':
-    m = Maze(30, 30)
+    m = Maze(10, 10)
     path = set()
-    path.add((0, 0))
-    m.print(path=path)
+    m.print()

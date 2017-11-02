@@ -33,6 +33,12 @@ def make_board(width):
 
 
 def utility(board):
+    # return:
+    # 1 if X won the game
+    # -1 if O won the game
+    # 0 for cat game
+    # None for incomplete game
+
     # check all rows
     cat = True
     for row in board:
@@ -101,27 +107,6 @@ def prompt_move():
     s = input("Enter move: <row> <column> ")
     tokens = s.split()
     return int(tokens[0]), int(tokens[1])
-
-
-def game_loop():
-    WIDTH = 3
-    b = make_board(WIDTH)
-
-    while utility(b) is None:
-        ### Human moves
-        # sanitize user input
-
-        user_move = prompt_move()
-        while not valid_move(user_move, b):
-            user_move = prompt_move()
-
-        # process move
-        b[user_move[0]][user_move[1]] = 'O'
-
-        ### AI moves
-        current_node = minimax.SearchNode(None, b)
-        next_node = minimax.minimax(current_node, -9999999999, 9999999999, maximize=True)
-        b = next_node.board
 
 
 if __name__ == '__main__':
