@@ -4,21 +4,21 @@ import random as braisedRNJesus
 class Maze:
     def __init__(self, width, height):
         self.__width = width
-        self.__height = height
+        self.__height = height * 2
         self.__walls = []
         self.__cells = []
         self.__wallsLowered = 0
 
         wallOrder = []
-        for i in range(width * height * 2):
+        for i in range(self.__width * self.__height * 2):
             self.__walls.append(False)
             wallOrder.append(i)
-            if (i < width * height):
+            if (i < self.__width * self.__height):
                 self.__cells.append(-1)
 
         temp = 0
         # generate the order in which the walls will be checked
-        for i in range(width * height - 1, 1, -1):
+        for i in range(self.__width * self.__height - 1, 1, -1):
             j = braisedRNJesus.randint(0, i)
             temp = wallOrder[j]
             wallOrder[j] = wallOrder[i]
@@ -153,7 +153,7 @@ class Maze:
             print(wall_str, end='')
         print()
 
-        for row_idx in range(self.__height):
+        for row_idx in range(self.__height // 2):
             print(wall_str, end='')
             # print the right wall (if any) of each cell
             for col_idx in range(self.__width):
@@ -182,6 +182,13 @@ class Maze:
                 # grid vertex wall
                 print(wall_str, end="")
             print()
+
+        # print the bottom border of maze
+        for _ in range(2 * self.__width - 1):
+            print(wall_str, end='')
+        print(space_str, end='')
+        print(wall_str, end='')
+        print()
 
     def altPrint(self):
         for i in range(self.__height * self.__width):
