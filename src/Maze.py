@@ -140,46 +140,53 @@ class Maze:
 
         return terminalTest
 
-    def print(self):
-        for i in range(self.__height * self.__width):
-            if ((i // self.__width) % 2 == 0):
-                # print space for a cell - can't be a wall here
-                print(" ", end="")
-            if (self.__walls[i]):
-                # print space for a wall that was removed
-                print(" ", end="")
-            else:
-                # print x for wall here
-                print("X", end="")
-            if ((i // self.__width) % 2 == 1):
-                # print x - grid vertex wall
-                print("X", end="")
-            if ((i + 1) % self.__width == 0):
-                print("")
-
-    def new_print(self, path=set()):
+    def print(self, path=set()):
+        print(self.__walls)
         wall_str = "[]"
         space_str = "  "
         path_str = "::"
-        for i in range(2 * self.__height * self.__width):
-            if ((i // self.__width) % 2 == 0):
-                coords = (i // self.__width, i % self.__height)
-                if coords in path:
-                    print(path_str, end="")
+
+        # print the top border of maze
+        print(wall_str, end='')
+        print(space_str, end='')
+        for _ in range(2 * self.__width - 1):
+            print(wall_str, end='')
+        print()
+
+        for row_idx in range(self.__height):
+            print(wall_str, end='')
+            # print the right wall (if any) of each cell
+            for col_idx in range(self.__width):
+                i = 2 * self.__width * row_idx + col_idx
+                if (row_idx, col_idx) in path:
+                    print(path_str, end='')
                 else:
+                    # print space for a cell - can't be a wall here
                     print(space_str, end="")
-            if (self.__walls[i]):
-                print(space_str, end="")
-            else:
-                print(wall_str, end="")
-            if ((i // self.__width) % 2 == 1):
-                print(wall_str, end="")
-            if ((i + 1) % self.__width == 0):
-                coords = (i // self.__width, i % self.__height)
-                if coords in path:
-                    print(path_str, end="")
+                if (self.__walls[i]):
+                    # print space for a wall that was removed
+                    print(space_str, end="")
                 else:
-                    print("")
+                    # this wall still stands
+                    print(wall_str, end="")
+            # draw the  floor (if any) for each cell
+            print('\n{}'.format(wall_str), end='')
+            for col_idx in range(self.__width):
+                i = 2 * self.__width * row_idx + self.__width + col_idx
+
+                if self.__walls[i]:
+                    print(space_str, end='')
+                else:
+                    print(wall_str, end='')
+                # grid vertex wall
+                print(wall_str, end="")
+            print()
+
+        # print the bottom border of maze
+        # for _ in range(2 * self.__width - 1):
+        #     print(wall_str, end='')
+        # print(space_str, end='')
+        # print(wall_str)
 
     def altPrint(self):
         for i in range(self.__height * self.__width):
@@ -214,7 +221,9 @@ class Maze:
 
 
 if __name__ == '__main__':
-    m = Maze(30, 30)
-    path = set()
-    path.add((0, 0))
-    m.print(path=path)
+    m = Maze(10, 10)
+    path = set([(0, 0), (0, 1), (1, 1)])
+    # m.print()
+    # m.print()
+    # print()
+    m.pprint(path=path)
