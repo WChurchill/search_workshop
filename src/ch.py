@@ -1,6 +1,6 @@
 import chess
 from chess import svg
-import minimax
+import alphabeta
 
 b = chess.Board()
 _file = 'chess.svg'
@@ -18,6 +18,6 @@ while not b.is_game_over():
         f.write(chess.svg.board(board=b))
 
     # AI moves
-    b.push(minimax.get_move(b))
+    b.push(alphabeta.get_move(b))
     with open(_file, 'w') as f:
         f.write(chess.svg.board(board=b))
