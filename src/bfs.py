@@ -21,7 +21,7 @@ while not goal_test(current_node.state):
         if new_state not in history:
             queue.append(SearchNode(new_state,
                                     current_node))  # add nodes to list
-    current_node = queue.pop()  # go to the next state
+    current_node = queue.pop(0)  # go to the next state
 
 path = set(current_node.state)
 while current_node.parent:
