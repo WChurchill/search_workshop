@@ -144,7 +144,7 @@ class Maze:
         wall_str = "[]"
         space_str = "  "
         path_str = "::"
-        for i in range(self.__height * (self.__width - 1)):
+        for i in range(2 * self.__height * self.__width):
             if ((i // self.__width) % 2 == 0):
                 coords = (i // self.__width, i % self.__height)
                 if coords in path:
@@ -165,9 +165,6 @@ class Maze:
                     print(path_str, end="")
                 else:
                     print("")
-        for i in range(self.__width * 2):
-            print(wall_str, end="")
-        print()
 
     def altPrint(self):
         for i in range(self.__height * self.__width):
