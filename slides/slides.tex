@@ -18,12 +18,14 @@
 \begin{frame}{Outline}
   \tableofcontents
 \end{frame}
-\section{Setup}
+\section{Introduction}
 \begin{frame}
   \frametitle{Setup}
-    
+  \begin{block}{Code:}
+    \url{https://www.github.com/WChurchill/search_workshop}
+  \end{block}
 \end{frame}
-\section{Introduction}
+
 \begin{frame}
   \frametitle{Introduction}
   What does it mean to search?\\
@@ -121,24 +123,6 @@
   \end{tabular}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Breadth First}
-  \begin{itemize}
-  
-  \item Utilizes a Queue: First in, First Out
-  \end{itemize}
-  % \scriptsize \verbatiminput{../src/bfs.py}
-  \normalsize
-  \begin{itemize}
-  \item What's missing?
-    \begin{itemize}
-    \item<2-> goal\_test() 
-    \item<2-> successors() 
-    \end{itemize}
-  \end{itemize}
-
-  
-\end{frame}
 
 \begin{frame}
   \frametitle{Depth First}
@@ -174,7 +158,7 @@
   \end{tabular}
 \end{frame}
 \begin{frame}{Example Time!}
-  TODO: live coding of maze solver
+  
 \end{frame}
 \begin{frame}
   \frametitle{What's the
@@ -231,36 +215,42 @@
   \item Instead of using goal\_test() we check if the current node is
     on the fringe of one search tree
   \end{itemize}
-  Code
 \end{frame}
 \section{Heuristics}
 \begin{frame}{Heuristics}
   \begin{itemize}
-  \item Can we make smarter 
+  \item<1-> So far we're using brute force and looking at every node
+  \item<2-> Can we make smarter 
     decisions about which nodes to
     expand?
-  \item That depends on the problem
-  \item What makes one node more promising than another?
+  \item<3-> That depends on the problem
+  \item<4-> What makes one node more promising than another?
    \begin{itemize}
-   \item<2-> Maze: how far from the end are we?
-   \item<3-> Computer Algebra System: how similar is the expression to
+   \item<5-> Maze: how far from the end are we?
+   \item<6-> Computer Algebra System: how similar is the expression to
      what we want?
-   \item<4-> Chess: Which board position gives us the biggest point
+   \item<7-> Chess: Which board position gives us the biggest point
      difference in our favor?  (more on this later)
    \end{itemize}
   \end{itemize}
 \end{frame}
-\begin{frame}{A*}
-  % \scriptsize \verbatiminput{a-star.py}
-  \normalsize
+\begin{frame}{Manhattan Distance}
+  \begin{itemize}
+  \item<1-> Let's pretend that there are no walls in the maze.\\
+    \[h(\text{state}) = (\text{width} -x) +  (\text{height} - y)\]
+  \item<2-> In simpler terms:\\
+    \[f(\text{state}) = g(\text{state}) + h(\text{state})\]
+    Where $g(\text{state})$ is the distance travelled
+  \end{itemize}
+  
 \end{frame}
 \begin{frame}
-  \frametitle{A*}
+  \frametitle{Naughty Heuristics}
   \begin{alertblock} {Warning!}
     If you are looking for the \textbf{optimal} solution, the heuristic must
     have special properties
   \end{alertblock}
-    In order to get a \emph{shortest} path the heuristic must \textbf{never}
+  In order to get a \emph{shortest} path the heuristic must \textbf{never}
   underestimate the actual distance, $h^*(x)$
   \begin{align*}
     \forall x :h^*(x) \le  h(x)
@@ -268,17 +258,17 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{A*}
+  \frametitle{Naughty Heuristics}
 
   \begin{figure}
     \begin{tikzpicture}
       \tikzset{>=latex}
       
-      \node[shape=circle,draw=black](A) at (0,0) {A};
-      \node[shape=circle,draw=black](B) at (-3, -1) {B};
+      \node[shape=circle,draw=black,fill=blue!30!](A) at (0,0) {A};
+      \node[shape=circle,draw=black,fill=blue!30!](B) at (-3, -1) {B};
       \node[shape=circle,draw=black](C) at (2, -1) {C};
       \node[shape=circle,draw=black](D) at (-5,-2) {D};
-      \node[shape=circle,draw=black](E) at (-3, -2) {E};
+      \node[shape=circle,draw=black,fill=blue!30!](E) at (-3, -2) {E};
       \node[shape=circle,draw=black](F) at (-1, -2) {F};
       \node[shape=circle,draw=black](G) at (1,-2) {G};
       \node[shape=circle,draw=black](H) at (3, -2) {H};
@@ -298,17 +288,51 @@
       \draw [->] (H) edge node[below]{8} (I);
     \end{tikzpicture}
   \end{figure}
-  Search Order: A $\rightarrow$ B $\rightarrow$ F $\rightarrow$ I
+  Shortest Path: A $\rightarrow$ B $\rightarrow$ E $\rightarrow$ I
 \end{frame}
-\begin{frame}{Beam Search}
-  \begin{itemize}
-  \item A* is an extension of breadth first search
-  \item Can we improve it by eliminating the limitations that come
-    with BFS?
-  \end{itemize}
+
+\begin{frame}
+  \frametitle{Naughty Heuristics}
+
+  \begin{figure}
+    \begin{tikzpicture}
+      \tikzset{>=latex}
+      
+      \node[shape=circle,draw=black,fill=blue!30!](A) at (0,0) {A};
+      \node[shape=circle,draw=black,fill=blue!30!](B) at (-3, -1) {B};
+      \node[shape=circle,draw=black](C) at (2, -1) {C};
+      \node[shape=circle,draw=black](D) at (-5,-2) {D};
+      \node[shape=circle,draw=black](E) at (-3, -2) {E};
+      \node[shape=circle,draw=black,fill=red!30!](F) at (-1, -2) {F};
+      \node[shape=circle,draw=black](G) at (1,-2) {G};
+      \node[shape=circle,draw=black](H) at (3, -2) {H};
+      \node[shape=circle,draw=black,fill=green] (I) at (-1, -3.5) {I};
+
+      \draw [->] (A) edge node[above]{3} (C);
+      \draw [->] (A) edge node[above]{4} (B);
+      \draw [->] (B) edge node[above]{6} (D);
+      \draw [->] (B) edge node[left]{1} node[right,text=red]{13} (E);
+      \draw [->] (B) edge node[above]{12} node[below,text=red]{11}(F);
+      \draw [->] (C) edge node[above left]{13} (G);
+      \draw [->] (C) edge node[above right]{10} (H);
+      \draw [->] (D) edge node[below]{3} (I);
+      \draw [->] (E) edge node[above]{1} (I);
+      \draw [->] (F) edge node[right]{0} (I);
+      \draw [->] (G) edge node[above]{7} (I);
+      \draw [->] (H) edge node[below]{8} (I);
+    \end{tikzpicture}
+  \end{figure}
+  \begin{align*}
+    f(E) &= 4 + 13 = 17\\
+    f(F) &= 4 + 11 = 15    
+  \end{align*}
+  Search Order: A $\rightarrow$ B $\rightarrow$ F $\rightarrow$ I
+
 \end{frame}
 \begin{frame}{Example Time!}
+  
 \end{frame}
+
 \section{Adversarial Search} 
 \begin{frame}{Adversarial Search}
   \begin{itemize}
@@ -419,29 +443,94 @@
 \end{frame}
 
 \begin{frame}{Example Time!}
-  text-based Tic Tac Toe example
+  \begin{block}{Tic Tac Toe}
+    tictactoe.py
+  \end{block}
 \end{frame}
 \begin{frame}
-  \frametitle{Chess}
+  \frametitle{Chess!}
+  \begin{block}{Game Loop}
+    ch.py
+  \end{block}
   \begin{itemize}
-  \item Add alpha-beta pruning to tic-tac-toe
-  \item Transplant algorithm into graphical chess program
+    \item<2-> It's very ... slow.
+    \item<3-> Literally unplayable
   \end{itemize}
 \end{frame}
 \begin{frame}{Alpha Beta Pruning}
   \begin{itemize}
-  \item Are there nodes that can can be skipped?
+  \item<1-> Are there nodes that can can be skipped?
   \item<2-> Yes! Sometimes...
   \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{AlphaBeta Intuition}
+  \begin{itemize}
+  \item Consider this scenario:
+  \end{itemize}
+  \begin{figure}
+    \begin{tikzpicture}[->,>=latex]
+      \tikzstyle{node}=[shape=circle,draw=black,minimum size=8mm];
+      \tikzstyle{rect}=[rounded corners,draw=black,opacity=0.1];
+      
+      
+      \node[node](A) at (0,0) {};
+      \node[node](B) at (-2, -1) {};
+      \node[node](C) at (2, -1) {};
+      \node[node](D) at (-3,-2) {};
+      \node[node](E) at (-1, -2) {};
+      \node[node](F) at (1,-2) {?};
+      \node[node](G) at (3, -2) {-1};
+      \node[node](H) at (-3.5, -3) {};
+      \node[node](I) at (-2.5, -3) {};
+      \node[node](J) at (-1.5, -3) {};
+      \node[node](K) at (-0.5, -3) {};
+      \node[node,fill=yellow!50!](L) at (0.5, -3) {?};
+      \node[node](M) at (1.5, -3) {3};
+      \node[node](N) at (2.5, -3) {2};
+      \node[node](O) at (3.5, -3) {-1};
+
+
+      \path[rect,fill=blue] (-5,0.5) rectangle (5,-0.5);
+      \path[rect,fill=red] (-5,-0.5) rectangle (5,-1.5);
+      \path[rect,fill=blue] (-5,-1.5) rectangle (5,-2.5);
+      \path[rect,fill=red] (-5,-2.5) rectangle (5,-3.5);
+
+
+      \path (A) edge (C);
+      \path (A) edge (B);
+      \path (B) edge (D);
+      \path (B) edge (E);
+      \path (C) edge (F);
+      \path (C) edge (G);
+      \path (D) edge (H);
+      \path (D) edge (I);
+      \path (E) edge (J);
+      \path (E) edge (K);
+      \path (F) edge (L);
+      \path (F) edge (M);
+      \path (G) edge (N);
+      \path (G) edge (O);
+
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{AlphaBeta}
+  \begin{enumerate}
+  \item If maximizing: watch for value that surpasses current max
+    estimate
+  \item If minimizing: looking for value that surpasses current min
+    estimate
+  \item If such a value is found, we can stop exploring child nodes
+    and return the value that caused the 
+  \end{enumerate}
 \end{frame}
 \begin{frame}
   \frametitle{Example Time!}
 \end{frame}
 \end{document}
-\begin{frame}
-  \frametitle{Local Search}
-  
-\end{frame}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
