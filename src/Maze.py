@@ -172,21 +172,16 @@ class Maze:
             # draw the  floor (if any) for each cell
             print('\n{}'.format(wall_str), end='')
             for col_idx in range(self.__width):
-                i = 2 * self.__width * row_idx + self.__width + col_idx
-
+                i = (1 + 2 * row_idx) * self.__width + col_idx
                 if self.__walls[i]:
+                    # cell floor is open
                     print(space_str, end='')
                 else:
+                    # cell floor still stands
                     print(wall_str, end='')
                 # grid vertex wall
                 print(wall_str, end="")
             print()
-
-        # print the bottom border of maze
-        # for _ in range(2 * self.__width - 1):
-        #     print(wall_str, end='')
-        # print(space_str, end='')
-        # print(wall_str)
 
     def altPrint(self):
         for i in range(self.__height * self.__width):
@@ -222,8 +217,8 @@ class Maze:
 
 if __name__ == '__main__':
     m = Maze(10, 10)
-    path = set([(0, 0), (0, 1), (1, 1)])
-    # m.print()
-    # m.print()
-    # print()
-    m.pprint(path=path)
+    m.print()
+    m = Maze(2, 2)
+    m.print()
+    m = Maze(4, 4)
+    m.print()
