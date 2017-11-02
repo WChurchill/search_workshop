@@ -120,7 +120,7 @@ def game_loop():
 
         ### AI moves
         current_node = minimax.SearchNode(None, b)
-        next_node = minimax.minimax(current_node, maximize=True)
+        next_node = minimax.minimax(current_node, -9999999999, 9999999999, maximize=True)
         b = next_node.board
 
 
