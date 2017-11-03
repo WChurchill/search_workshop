@@ -1,4 +1,8 @@
 from Maze import Maze
+import time
+
+# Visualize path generation
+slow_viz = True
 
 
 class SearchNode():
@@ -27,4 +31,6 @@ while current_node.parent:
     current_node = current_node.parent
     path.add(current_node.state)
 
-maze.print(path=path)
+    maze.print(path=path)
+    if slow_viz:
+        time.sleep(.1)
