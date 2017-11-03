@@ -56,7 +56,9 @@ while len(queue) > 0 and len(queue_end) > 0:
                                             current_node_end))
 
 
-# Connect search trees and build path
+# Connect search trees together
+
+# Build path from start node
 if start_terminated:
     current_node = current_node_start
 else:
@@ -66,9 +68,9 @@ path = set(current_node.state)
 
 while current_node.parent:
     current_node = current_node.parent
-    print(current_node.state)
     path.add(current_node.state)
 
+# Join path to the end node
 if not start_terminated:
     current_node = current_node_end
 else:
