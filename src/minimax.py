@@ -10,6 +10,9 @@ class SearchNode():
         self.parent = parent
 
 
+INFINITY = 9999999999
+
+
 def minimax(current_node, a, b, maximize=True):
     # check if we're at a leaf node
     util = ttt.utility(current_node.board)
@@ -19,7 +22,7 @@ def minimax(current_node, a, b, maximize=True):
         return SearchNode(current_node, util, current_node.board)
 
     if maximize:
-        child_node = SearchNode(current_node, -9999999999, current_node.board)
+        child_node = SearchNode(current_node, -INFINITY, current_node.board)
 
         # if it's our turn, return the move that maximizes utility
         for state in ttt.successors(current_node.board, 'X'):
@@ -37,7 +40,7 @@ def minimax(current_node, a, b, maximize=True):
 
         return child_node
     else:
-        child_node = SearchNode(current_node, 9999999999, current_node.board)
+        child_node = SearchNode(current_node, INFINITY, current_node.board)
 
         # If opponent's turn, return the move that minimizes utility
         for state in ttt.successors(current_node.board, 'O'):
@@ -78,7 +81,7 @@ def game_loop():
             ### AI moves
             current_node = SearchNode(None, None, b)
             best_node = minimax(
-                current_node, -9999999999, 9999999999, maximize=True)
+                current_node, -INFINITY, INFINITY, maximize=True)
             b = best_node.board
 
 

@@ -4,9 +4,19 @@ import chess
 
 
 class SearchNode():
+    # reward for winning the game
+
+    # must be less than 'infinity' but still much, much larger than
+    # any non-winning board heuristic
+
+    WIN_REWARD = 99999
+
     def __init__(self, move, board):
         self.move = move  # the move that generated this state
         self.board = board
+
+    def is_leaf(self):
+        return self.board.result() != '*'
 
     def utility(self):
         result = self.board.result()
@@ -14,10 +24,10 @@ class SearchNode():
         if result == '1/2-1/2':
             return 0
         elif result == '0-1':
-            return 99999
+            return WIN_REWARD
             # enemy checkmate
         elif result == '1-0':
-            return -99999
+            return -WIN_REWARD
         else:
             return self.heuristic()
         # heuristic
@@ -62,29 +72,30 @@ def piece_value(piece):
         return 0.00001
 
 
+INFINITY = 9999999999
+
+
 def get_move(board):
     start_node = SearchNode(None, board)
-    best_state = alphabeta(
-        start_node, 3, -9999999999, 9999999999, maximize=True)
+    best_state = alphabeta(start_node, 1, -INFINITY, INFINITY, maximize=True)
     return best_state.move
 
 
 def alphabeta(current_node, depth, a, b, maximize=True):
     # check if we're at a leaf node
-    util = current_node.utility()
-    if util is not None:
+    if current_node.is_leaf() or depth == 0:
         # the game is over, return the reward
-        display(current_node.board)
-        return SearchNode(util, current_node.board, current_node.move)
+        return SearchNode(current_node.utility(), current_node.board,
+                          current_node.move)
 
     if maximize:
-        child_node = SearchNode(-9999999999, current_node.board)
+        child_node = SearchNode(-INFINITY, current_node.board)
 
         # if it's our turn, return the move that maximizes utility
-        for state in successors(current_node.board, 'X'):
+        for state in current_node.successors():
             child_node = max(
                 child_node,
-                minimax(SearchNode(None, state), a, b, not maximize),
+                alphabeta(SearchNode(None, state), a, b, not maximize),
                 key=lambda node: node.utility)
 
             # Alpha-Beta pruning
@@ -95,13 +106,13 @@ def alphabeta(current_node, depth, a, b, maximize=True):
 
         return child_node
     else:
-        child_node = SearchNode(9999999999, current_node.board)
+        child_node = SearchNode(INFINITY, current_node.board)
 
         # If opponent's turn, then minimize
-        for state in successors(current_node.board, 'O'):
+        for state in current_node.successors():
             child_node = min(
                 child_node,
-                minimax(SearchNode(None, state), a, b, not maximize),
+                alphabeta(SearchNode(None, state), a, b, not maximize),
                 key=lambda node: node.utility)
 
             # Alpha-Beta pruning
